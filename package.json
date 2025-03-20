@@ -1,0 +1,16 @@
+{
+  "name": "hyperlane-contracts-examples",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@9.6.0+sha256.dae0f7e822c56b20979bb5965e3b73b8bdabb6b8b8ef121da6d857508599ca35",
+  "dependencies": {
+    "@hyperlane-xyz/core": "^6.0.0"
+  }
+}
