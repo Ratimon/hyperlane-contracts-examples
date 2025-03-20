@@ -1,66 +1,17 @@
-## Foundry
+## hyperlane-contracts-examples
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+## Installation
 
-Foundry consists of:
+We assume that you already setup your own working front-end environment and `cd` into it
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+```bash
+cd my-project;
+nvm use v22.14.0
+``` 
 
-## Documentation
+```bash
+npm install -g @hyperlane-xyz/cl
+``` 
 
-https://book.getfoundry.sh/
 
-## Usage
-
-### Build
-
-```shell
-$ forge build
-```
-
-### Test
-
-```shell
-$ forge test
-```
-
-### Format
-
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+[Hyperlane's contract types](https://github.com/hyperlane-xyz/hyperlane-monorepo/blob/main/typescript/sdk/src/token/contracts.ts)

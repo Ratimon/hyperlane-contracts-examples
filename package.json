@@ -4,13 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepare": "rm -rf lib/ && set-defaults .vscode && forge install --no-git foundry-rs/forge-std@v1.9.6",
+    "init": "hyperlane warp init"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@9.6.0+sha256.dae0f7e822c56b20979bb5965e3b73b8bdabb6b8b8ef121da6d857508599ca35",
   "dependencies": {
-    "@hyperlane-xyz/core": "^6.0.0"
+    "@hyperlane-xyz/core": "^6.0.0",
+    "@openzeppelin/contracts": "^4.9.3",
+    "@openzeppelin/contracts-upgradeable": "^4.9.3",
+    "set-defaults": "^0.0.2"
   }
 }
