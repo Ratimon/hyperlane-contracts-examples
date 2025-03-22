@@ -13,5 +13,4 @@ nvm use v22.14.0
 npm install -g @hyperlane-xyz/cl
 ``` 
 
-
 [Hyperlane's contract types](https://github.com/hyperlane-xyz/hyperlane-monorepo/blob/main/typescript/sdk/src/token/contracts.ts)
