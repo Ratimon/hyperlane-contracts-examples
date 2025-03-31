@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prepare": "rm -rf lib/ && set-defaults .vscode && forge install --no-git foundry-rs/forge-std@v1.9.6 -no-git openzeppelin-5_2_0=openzeppelin/openzeppelin-contracts@v5.2.0",
+    "prepare": "rm -rf lib/ && set-defaults .vscode && forge install --no-git foundry-rs/forge-std@v1.9.6 openzeppelin-5_2_0=openzeppelin/openzeppelin-contracts@v5.2.0",
     "init": "hyperlane warp init"
   },
   "keywords": [],
