@@ -14,10 +14,10 @@ pragma solidity >=0.8.0;
 @@@@@@@@@       @@@@@@@@*/
 
 // ============ Internal Imports ============
-import {TokenRouter} from "./libs/TokenRouter.sol";
-import {FungibleTokenRouter} from "./libs/FungibleTokenRouter.sol";
-import {TokenMessage} from "./libs/TokenMessage.sol";
-import {MailboxClient} from "../client/MailboxClient.sol";
+import {TokenRouter} from "@hyperlane-core/token/libs/TokenRouter.sol";
+import {FungibleTokenRouter} from "@hyperlane-core/token/libs/FungibleTokenRouter.sol";
+import {TokenMessage} from "@hyperlane-core/token/libs/TokenMessage.sol";
+import {MailboxClient} from "@hyperlane-core/client/MailboxClient.sol";
 
 // ============ External Imports ============
 import {Address} from "@openzeppelin/contracts/utils/Address.sol";
