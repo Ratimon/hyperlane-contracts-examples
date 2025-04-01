@@ -2,3 +2,4 @@
 @openzeppelin=node_modules/@openzeppelin
 @openzeppelin-5_2_0=lib/openzeppelin-5_2_0
 @hyperlane-core=node_modules/@hyperlane-xyz/core/contracts
+@xerc20=lib/xERC20-1_0_0/solidity
