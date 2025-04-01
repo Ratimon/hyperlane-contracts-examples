@@ -1,21 +1,16 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity >=0.8.4 <0.9.0;
 
-import {IXERC20} from '@xerc20/interfaces/IXERC20.sol';
-import {ERC20} from '@openzeppelin/contracts/token/ERC20/ERC20.sol';
-import {ERC20Permit} from '@openzeppelin/contracts/token/ERC20/extensions/ERC20Permit.sol';
-import {Ownable} from '@openzeppelin/contracts/access/Ownable.sol';
+import {IXERC20} from '@xerc20-1_0_0/interfaces/IXERC20.sol';
+import {ERC20} from '@openzeppelin-5_2_0/contracts/token/ERC20/ERC20.sol';
+import {ERC20Permit} from '@openzeppelin-5_2_0/contracts/token/ERC20/extensions/ERC20Permit.sol';
+import {Ownable} from '@openzeppelin-5_2_0/contracts/access/Ownable.sol';
 
 contract XERC20 is ERC20, Ownable, IXERC20, ERC20Permit {
   /**
    * @notice The duration it takes for the limits to fully replenish
    */
   uint256 private constant _DURATION = 1 days;
-
-  /**
-   * @notice The address of the factory which deployed this contract
-   */
-  address public immutable FACTORY;
 
   /**
    * @notice The address of the lockbox contract
@@ -29,14 +24,10 @@ contract XERC20 is ERC20, Ownable, IXERC20, ERC20Permit {
 
   /**
    * @notice Constructs the initial config of the XERC20
-   *
-   * @param _name The name of the token
-   * @param _symbol The symbol of the token
-   * @param _factory The factory which deployed this contract
    */
-  constructor(string memory _name, string memory _symbol, address _factory) ERC20(_name, _symbol) ERC20Permit(_name) {
-    _transferOwnership(_factory);
-    FACTORY = _factory;
+  constructor(address _lockbox,address initialOwner )
+    ERC20("MyXERC20", "ME") ERC20Permit("MyXERC20") Ownable(initialOwner) {
+    lockbox = _lockbox;
   }
 
   /**
@@ -68,8 +59,7 @@ contract XERC20 is ERC20, Ownable, IXERC20, ERC20Permit {
    *
    * @param _lockbox The address of the lockbox
    */
-  function setLockbox(address _lockbox) public {
-    if (msg.sender != FACTORY) revert IXERC20_NotFactory();
+  function setLockbox(address _lockbox) public onlyOwner {
     lockbox = _lockbox;
 
     emit LockboxSet(_lockbox);
@@ -280,4 +270,5 @@ contract XERC20 is ERC20, Ownable, IXERC20, ERC20Permit {
     }
     _mint(_user, _amount);
   }
+  
 }
