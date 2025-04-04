@@ -1,0 +1,28 @@
+basesepolia:
+  interchainSecurityModule:
+    modules:
+      - relayer: "0x305A65d6e453c613F47CB8173941d9b3d2604fBe"
+        type: trustedRelayerIsm
+      - domains: {}
+        owner: "0x305A65d6e453c613F47CB8173941d9b3d2604fBe"
+        type: defaultFallbackRoutingIsm
+    threshold: 1
+    type: staticAggregationIsm
+  isNft: false
+  owner: "0x305A65d6e453c613F47CB8173941d9b3d2604fBe"
+  token: "0x305A65d6e453c613F47CB8173941d9b3d2604fBe"
+  type: collateral
+unichaintestnet:
+  interchainSecurityModule:
+    modules:
+      - relayer: "0x305A65d6e453c613F47CB8173941d9b3d2604fBe"
+        type: trustedRelayerIsm
+      - domains: {}
+        owner: "0x305A65d6e453c613F47CB8173941d9b3d2604fBe"
+        type: defaultFallbackRoutingIsm
+    threshold: 1
+    type: staticAggregationIsm
+  isNft: false
+  owner: "0x305A65d6e453c613F47CB8173941d9b3d2604fBe"
+  type: fastSynthetic
+

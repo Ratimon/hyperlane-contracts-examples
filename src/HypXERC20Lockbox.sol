@@ -1,26 +1,18 @@
-// SPDX-License-Identifier: MIT OR Apache-2.0
-pragma solidity >=0.8.0;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.25;
 
-import {IXERC20Lockbox} from "@hyperlane-core/token/interfaces/IXERC20Lockbox.sol";
-import {IXERC20, IERC20} from "@hyperlane-core/token/interfaces/IXERC20.sol";
 import {HypERC20Collateral} from "@hyperlane-core/token/HypERC20Collateral.sol";
+import {IXERC20, IERC20} from "@hyperlane-core/token/interfaces/IXERC20.sol";
+import {IXERC20Lockbox} from "@hyperlane-core/token/interfaces/IXERC20Lockbox.sol";
 
+/// @custom:security-contact Consult full code at https://github.com/defi-wonderland/xXERC20Lockbox
 contract HypXERC20Lockbox is HypERC20Collateral {
     uint256 constant MAX_INT = 2 ** 256 - 1;
-
     IXERC20Lockbox public immutable lockbox;
     IXERC20 public immutable xERC20;
 
-    constructor(
-        address _lockbox,
-        uint256 _scale,
-        address _mailbox
-    )
-        HypERC20Collateral(
-            address(IXERC20Lockbox(_lockbox).ERC20()),
-            _scale,
-            _mailbox
-        )
+    constructor(address _lockbox, uint256 _scale, address _mailbox)
+        HypERC20Collateral(address(IXERC20Lockbox(_lockbox).ERC20()), _scale, _mailbox)
     {
         lockbox = IXERC20Lockbox(_lockbox);
         xERC20 = lockbox.XERC20();
@@ -28,10 +20,6 @@ contract HypXERC20Lockbox is HypERC20Collateral {
         _disableInitializers();
     }
 
-    /**
-     * @notice Approve the lockbox to spend the wrapped token and xERC20
-     * @dev This function is idempotent and need not be access controlled
-     */
     function approveLockbox() public {
         require(
             IERC20(wrappedToken).approve(address(lockbox), MAX_INT),
@@ -43,24 +31,19 @@ contract HypXERC20Lockbox is HypERC20Collateral {
         );
     }
 
-    /**
-     * @notice Initialize the contract
-     * @param _hook The address of the hook contract
-     * @param _ism The address of the interchain security module
-     * @param _owner The address of the owner
-     */
-    function initialize(
-        address _hook,
-        address _ism,
-        address _owner
-    ) public override initializer {
+    function initialize(address _hook, address _ism, address _owner)
+        public
+        override initializer
+    {
         approveLockbox();
         _MailboxClient_initialize(_hook, _ism, _owner);
     }
 
-    function _transferFromSender(
-        uint256 _amount
-    ) internal override returns (bytes memory) {
+    function _transferFromSender(uint256 _amount)
+        internal
+        override
+        returns (bytes memory)
+    {
         // transfer erc20 from sender
         super._transferFromSender(_amount);
         // convert erc20 to xERC20
@@ -70,11 +53,10 @@ contract HypXERC20Lockbox is HypERC20Collateral {
         return bytes("");
     }
 
-    function _transferTo(
-        address _recipient,
-        uint256 _amount,
-        bytes calldata /*metadata*/
-    ) internal override {
+    function _transferTo(address _recipient, uint256 _amount, bytes calldata )
+        internal
+        override
+    {
         // mint xERC20
         xERC20.mint(address(this), _amount);
         // convert xERC20 to erc20

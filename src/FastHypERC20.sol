@@ -1,61 +1,41 @@
-// SPDX-License-Identifier: Apache-2.0
-pragma solidity >=0.8.0;
-
-import {HypERC20} from "@hyperlane-core/token/HypERC20.sol";
-import {FastTokenRouter} from "@hyperlane-core/token/libs/FastTokenRouter.sol";
-import {TokenRouter} from "@hyperlane-core/token/libs/TokenRouter.sol";
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.25;
 
 import {ERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
+import {FastTokenRouter} from "@hyperlane-core/token/libs/FastTokenRouter.sol";
+import {HypERC20} from "@hyperlane-core/token/HypERC20.sol";
+import {TokenRouter} from "@hyperlane-core/token/libs/TokenRouter.sol";
 
-/**
- * @title Hyperlane ERC20 Token Router that extends ERC20 with remote transfer functionality.
- * @author Abacus Works
- * @dev Supply on each chain is not constant but the aggregate supply across all chains is.
- */
-contract FastHypERC20 is FastTokenRouter, HypERC20 {
-    constructor(
-        uint8 __decimals,
-        uint256 _scale,
-        address _mailbox
-    ) HypERC20(__decimals, _scale, _mailbox) {}
+/// @custom:security-contact Consult full code at https://github.com/hyperlane-xyz/hyperlane-monorepo/blob/main/solidity/contracts/token/extensions/FastHypERC20.sol
+contract FastHypERC20 is HypERC20, FastTokenRouter {
+    constructor(uint8 __decimals, uint256 _scale, address _mailbox)
+        HypERC20(__decimals, _scale, _mailbox)
+    {}
 
-    /**
-     * @dev delegates transfer logic to `_transferTo`.
-     * @inheritdoc TokenRouter
-     */
-    function _handle(
-        uint32 _origin,
-        bytes32 _sender,
-        bytes calldata _message
-    ) internal virtual override(FastTokenRouter, TokenRouter) {
+    function _handle(uint32 _origin, bytes32 _sender, bytes calldata _message)
+        internal
+        virtual override(FastTokenRouter, TokenRouter)
+    {
         FastTokenRouter._handle(_origin, _sender, _message);
     }
 
-    /**
-     * @dev Mints `_amount` of tokens to `_recipient`.
-     * @inheritdoc FastTokenRouter
-     */
-    function _fastTransferTo(
-        address _recipient,
-        uint256 _amount
-    ) internal override {
+    function _fastTransferTo(address _recipient, uint256 _amount)
+        internal
+        override
+    {
         _mint(_recipient, _amount);
     }
 
-    /**
-     * @dev Burns `_amount` of tokens from `_recipient`.
-     * @inheritdoc FastTokenRouter
-     */
-    function _fastRecieveFrom(
-        address _sender,
-        uint256 _amount
-    ) internal override {
+    function _fastRecieveFrom(address _sender, uint256 _amount) internal override {
         _burn(_sender, _amount);
     }
 
-    function balanceOf(
-        address _account
-    ) public view virtual override(HypERC20, TokenRouter) returns (uint256) {
+    function balanceOf(address _account)
+        public
+        view
+        virtual override(HypERC20, TokenRouter)
+        returns (uint256)
+    {
         return ERC20Upgradeable.balanceOf(_account);
     }
 }

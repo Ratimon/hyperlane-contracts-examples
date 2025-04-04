@@ -1,41 +1,24 @@
-// SPDX-License-Identifier: Apache-2.0
-pragma solidity >=0.8.0;
-
-import {TokenRouter} from "@hyperlane-core/token/libs/TokenRouter.sol";
-import {FungibleTokenRouter} from "@hyperlane-core/token/libs/FungibleTokenRouter.sol";
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.25;
 
 import {ERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
+import {FungibleTokenRouter} from "@hyperlane-core/token/libs/FungibleTokenRouter.sol";
+import {TokenRouter} from "@hyperlane-core/token/libs/TokenRouter.sol";
 
-/**
- * @title Hyperlane ERC20 Token Router that extends ERC20 with remote transfer functionality.
- * @author Abacus Works
- * @dev Supply on each chain is not constant but the aggregate supply across all chains is.
- */
-contract HypERC20 is ERC20Upgradeable, FungibleTokenRouter {
+/// @custom:security-contact Consult full code at https://github.com/hyperlane-xyz/hyperlane-monorepo/blob/main/solidity/contracts/token/HypERC20.sol
+contract HypERC20 is FungibleTokenRouter, ERC20Upgradeable {
     uint8 private immutable _decimals;
 
-    constructor(
-        uint8 __decimals,
-        uint256 _scale,
-        address _mailbox
-    ) FungibleTokenRouter(_scale, _mailbox) {
+    constructor(uint8 __decimals, uint256 _scale, address _mailbox)
+        FungibleTokenRouter(_scale, _mailbox)
+    {
         _decimals = __decimals;
     }
 
-    /**
-     * @notice Initializes the Hyperlane router, ERC20 metadata, and mints initial supply to deployer.
-     * @param _totalSupply The initial supply of the token.
-     * @param _name The name of the token.
-     * @param _symbol The symbol of the token.
-     */
-    function initialize(
-        uint256 _totalSupply,
-        string memory _name,
-        string memory _symbol,
-        address _hook,
-        address _interchainSecurityModule,
-        address _owner
-    ) public virtual initializer {
+    function initialize(uint256 _totalSupply, string memory _name, string memory _symbol, address _hook, address _interchainSecurityModule, address _owner)
+        public
+        virtual initializer
+    {
         // Initialize ERC20 metadata
         __ERC20_init(_name, _symbol);
         _mint(msg.sender, _totalSupply);
@@ -46,38 +29,28 @@ contract HypERC20 is ERC20Upgradeable, FungibleTokenRouter {
         return _decimals;
     }
 
-    function balanceOf(
-        address _account
-    )
+    function balanceOf(address _account)
         public
         view
-        virtual
-        override(TokenRouter, ERC20Upgradeable)
+        virtual override(TokenRouter, ERC20Upgradeable)
         returns (uint256)
     {
         return ERC20Upgradeable.balanceOf(_account);
     }
 
-    /**
-     * @dev Burns `_amount` of token from `msg.sender` balance.
-     * @inheritdoc TokenRouter
-     */
-    function _transferFromSender(
-        uint256 _amount
-    ) internal override returns (bytes memory) {
+    function _transferFromSender(uint256 _amount)
+        internal
+        override
+        returns (bytes memory)
+    {
         _burn(msg.sender, _amount);
         return bytes(""); // no metadata
     }
 
-    /**
-     * @dev Mints `_amount` of token to `_recipient` balance.
-     * @inheritdoc TokenRouter
-     */
-    function _transferTo(
-        address _recipient,
-        uint256 _amount,
-        bytes calldata // no metadata
-    ) internal virtual override {
+    function _transferTo(address _recipient, uint256 _amount, bytes calldata )
+        internal
+        virtual override
+    {
         _mint(_recipient, _amount);
     }
 }
